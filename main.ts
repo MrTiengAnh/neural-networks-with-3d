@@ -1,3 +1,40 @@
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    sprites.destroy(mySprite3)
+    sprites.destroy(mySprite4)
+    tiles.placeOnTile(mySprite2, tiles.getTileLocation(6, 0))
+    mySprite2.setVelocity((AI.Think(net2, [Math.map(mySprite.x, 23, 137, 0, 1), Math.map(mySprite.y, 24, 104, 0, 1)], 2)[0] - 0.5) * 100, (AI.Think(net2, [Math.map(mySprite.x, 23, 137, 0, 1), Math.map(mySprite.y, 24, 104, 0, 1)], 2)[1] - 0.5) * 100)
+    mySprite2.startEffect(effects.trail)
+    mySprite2.setKind(SpriteKind.Food)
+    a = game.runtime()
+})
+info.onCountdownEnd(function () {
+    Render.moveWithController(0)
+    controller.moveSprite(mySprite, 0, 0)
+    mySprite2.setVelocity((AI.Think(net2, [Math.map(mySprite.x, 23, 137, 0, 1), Math.map(mySprite.y, 24, 104, 0, 1)], 2)[0] - 0.5) * 100, (AI.Think(net2, [Math.map(mySprite.x, 23, 137, 0, 1), Math.map(mySprite.y, 24, 104, 0, 1)], 2)[1] - 0.5) * 100)
+    mySprite3.setVelocity((AI.Think(net3, [Math.map(mySprite.x, 23, 137, 0, 1), Math.map(mySprite.y, 24, 104, 0, 1)], 2)[0] - 0.5) * 100, (AI.Think(net3, [Math.map(mySprite.x, 23, 137, 0, 1), Math.map(mySprite.y, 24, 104, 0, 1)], 2)[1] - 0.5) * 100)
+    mySprite4.setVelocity((AI.Think(net4, [Math.map(mySprite.x, 23, 137, 0, 1), Math.map(mySprite.y, 24, 104, 0, 1)], 2)[0] - 0.5) * 100, (AI.Think(net4, [Math.map(mySprite.x, 23, 137, 0, 1), Math.map(mySprite.y, 24, 104, 0, 1)], 2)[1] - 0.5) * 100)
+    MixArray = []
+})
+scene.onHitWall(SpriteKind.Enemy, function (sprite, location) {
+    if (sprite.isHittingTile(CollisionDirection.Left) || sprite.isHittingTile(CollisionDirection.Right)) {
+        sprite.setVelocity(sprite.vx * -1.01, sprite.vy * 1.01)
+        sprite.image.flipX()
+    } else if (sprite.isHittingTile(CollisionDirection.Top) || sprite.isHittingTile(CollisionDirection.Bottom)) {
+        sprite.setVelocity(sprite.vx * 1.01, sprite.vy * -1.01)
+    }
+})
+scene.onHitWall(SpriteKind.Food, function (sprite, location) {
+    if (sprite.isHittingTile(CollisionDirection.Left) || sprite.isHittingTile(CollisionDirection.Right)) {
+        sprite.setVelocity(sprite.vx * -1.01, sprite.vy * 1.01)
+        sprite.image.flipX()
+    } else if (sprite.isHittingTile(CollisionDirection.Top) || sprite.isHittingTile(CollisionDirection.Bottom)) {
+        sprite.setVelocity(sprite.vx * 1.01, sprite.vy * -1.01)
+    }
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
+    game.setGameOverMessage(true, "" + convertToText(Math.round((game.runtime() - a) / 100) / 10) + " SECOND PATH, " + convertToText(Math.round(mySprite.x)) + "x, " + convertToText(Math.round(mySprite.y)) + "y!")
+    game.gameOver(true)
+})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     otherSprite.setVelocity(0, 0)
     console.log(MixArray.length)
@@ -62,45 +99,8 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
         info.startCountdown(1)
     }
 })
-scene.onHitWall(SpriteKind.Enemy, function (sprite, location) {
-    if (sprite.isHittingTile(CollisionDirection.Left) || sprite.isHittingTile(CollisionDirection.Right)) {
-        sprite.setVelocity(sprite.vx * -1.01, sprite.vy * 1.01)
-        sprite.image.flipX()
-    } else if (sprite.isHittingTile(CollisionDirection.Top) || sprite.isHittingTile(CollisionDirection.Bottom)) {
-        sprite.setVelocity(sprite.vx * 1.01, sprite.vy * -1.01)
-    }
-})
-info.onCountdownEnd(function () {
-    Render.moveWithController(0)
-    controller.moveSprite(mySprite, 0, 0)
-    mySprite2.setVelocity((AI.Think(net2, [Math.map(mySprite.x, 23, 137, 0, 1), Math.map(mySprite.y, 24, 104, 0, 1)], 2)[0] - 0.5) * 100, (AI.Think(net2, [Math.map(mySprite.x, 23, 137, 0, 1), Math.map(mySprite.y, 24, 104, 0, 1)], 2)[1] - 0.5) * 100)
-    mySprite3.setVelocity((AI.Think(net3, [Math.map(mySprite.x, 23, 137, 0, 1), Math.map(mySprite.y, 24, 104, 0, 1)], 2)[0] - 0.5) * 100, (AI.Think(net3, [Math.map(mySprite.x, 23, 137, 0, 1), Math.map(mySprite.y, 24, 104, 0, 1)], 2)[1] - 0.5) * 100)
-    mySprite4.setVelocity((AI.Think(net4, [Math.map(mySprite.x, 23, 137, 0, 1), Math.map(mySprite.y, 24, 104, 0, 1)], 2)[0] - 0.5) * 100, (AI.Think(net4, [Math.map(mySprite.x, 23, 137, 0, 1), Math.map(mySprite.y, 24, 104, 0, 1)], 2)[1] - 0.5) * 100)
-    MixArray = []
-})
-controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    sprites.destroy(mySprite3)
-    sprites.destroy(mySprite4)
-    tiles.placeOnTile(mySprite2, tiles.getTileLocation(6, 0))
-    mySprite2.setVelocity((AI.Think(net2, [Math.map(mySprite.x, 23, 137, 0, 1), Math.map(mySprite.y, 24, 104, 0, 1)], 2)[0] - 0.5) * 100, (AI.Think(net2, [Math.map(mySprite.x, 23, 137, 0, 1), Math.map(mySprite.y, 24, 104, 0, 1)], 2)[1] - 0.5) * 100)
-    mySprite2.startEffect(effects.trail)
-    mySprite2.setKind(SpriteKind.Food)
-    a = game.runtime()
-})
-scene.onHitWall(SpriteKind.Food, function (sprite, location) {
-    if (sprite.isHittingTile(CollisionDirection.Left) || sprite.isHittingTile(CollisionDirection.Right)) {
-        sprite.setVelocity(sprite.vx * -1.01, sprite.vy * 1.01)
-        sprite.image.flipX()
-    } else if (sprite.isHittingTile(CollisionDirection.Top) || sprite.isHittingTile(CollisionDirection.Bottom)) {
-        sprite.setVelocity(sprite.vx * 1.01, sprite.vy * -1.01)
-    }
-})
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
-    game.setGameOverMessage(true, "" + convertToText(Math.round((game.runtime() - a) / 100) / 10) + " SECOND PATH, " + convertToText(Math.round(mySprite.x)) + "x, " + convertToText(Math.round(mySprite.y)) + "y!")
-    game.gameOver(true)
-})
-let a = 0
 let MixArray: number[][][][] = []
+let a = 0
 let net4: number[][][] = []
 let net3: number[][][] = []
 let net2: number[][][] = []
